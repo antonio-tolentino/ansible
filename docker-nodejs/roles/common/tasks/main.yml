@@ -1,0 +1,39 @@
+---
+# This playbook does:
+# update host
+# install required packages
+# disable firewall
+# disable selinux
+
+- name: update all packages
+  yum: name=* state=latest
+
+- name: install net-tools
+  yum: name=net-tools state=present
+
+- name: install bash-completion
+  yum: name=bash-completion state=present
+
+- name: install docker
+  yum: name=docker state=present
+
+- name: enable and start docker
+  service: name=docker  enabled=yes state=started
+
+- name: disable selinux
+  lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: 'SELINUX=disabled'
+
+- name: stop and disable Firewalld
+  service: name=firewalld  enabled=no state=stopped
+
+- name: restart system 
+  shell: sleep 2 && shutdown -r now "Ansible restart triggered"
+  async: 1
+  poll: 0
+  ignore_errors: true
+  notify:
+    - wait until server is available
+ 

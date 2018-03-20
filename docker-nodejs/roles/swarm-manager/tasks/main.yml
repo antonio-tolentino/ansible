@@ -1,0 +1,18 @@
+---
+# swarm init tasks
+
+- name: swarm init
+  shell: docker swarm init --advertise-addr {{ ansible_host }}
+  ignore_errors: true
+
+- name: get swarm cluster token
+  shell: docker swarm join-token worker -q
+  register: swarm_token
+  
+
+- name: add swarm ip and token to dummy host
+  add_host:
+    name: "leader"
+    swarm_manager_ip: "{{ ansible_host }}"
+    swarm_token: "{{ swarm_token.stdout }}"
+

@@ -1,0 +1,10 @@
+---
+# swarm workers tasks
+
+
+- name: join to swarm cluster
+  shell: docker swarm join --token {{ swarm_token }} {{ swarm_manager_ip }}:2377
+  register: output
+  ignore_errors: true
+
+

@@ -1,0 +1,18 @@
+---
+# deploy application tasks
+
+
+- name: create directory deployment
+  file:
+    path: /deployment/
+    state: directory
+    mode: 0755
+  ignore_errors: true
+
+- name: Create docker compose file
+  template: src=hello-api.yml dest=/deployment/hello-api.yml
+  ignore_errors: true
+
+
+- name: deploy service hello-api
+  shell: docker stack deploy -c /deployment/hello-api.yml hello-api

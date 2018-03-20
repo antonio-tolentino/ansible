@@ -1,0 +1,7 @@
+= Ansible
+Antonio Tolentino <atcjunior@gmail.com>
+v1.0, March 10, 2018: First Version     
+
+This Repository contain examples of ansible usage
+
+* docker-nodejs

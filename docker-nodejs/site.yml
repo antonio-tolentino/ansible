@@ -1,0 +1,36 @@
+# This playbook will prepare a host to run a node app with docker
+
+- name: apply common configuration to all nodes
+  hosts: all
+  remote_user: root
+
+  roles:
+    - common
+
+
+- name: docker swarm mode
+  hosts: manager
+  gather_facts: no
+  remote_user: root
+
+  roles:
+    - swarm-manager
+
+- name: swarm workers
+  hosts: worker
+  vars:
+    swarm_manager_ip: "{{ hostvars['leader']['swarm_manager_ip'] }}"
+    swarm_token: "{{ hostvars['leader']['swarm_token'] }}"
+  gather_facts: no
+  remote_user: root
+
+  roles:
+    - swarm-worker
+
+- name: deploy docker service
+  hosts: manager
+  gather_facts: no
+  remote_user: root
+
+  roles:
+    - deploy

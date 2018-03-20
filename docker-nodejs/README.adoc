@@ -1,0 +1,22 @@
+= Docker swarm and Nodejs Application
+Antonio Tolentino <atcjunior@gmail.com>
+v1.0, March 10, 2018: First Version     
+
+This ansible script configure a cluster swarm and deploy a service 
+
+Requirements:
+
+* Create a centos 7 host for swarm manager.
+* Create two or more Centos 7 hosts for swarm workers.
+* Configure ip and dns for all hosts
+
+
+Ansible file changes:
+
+* Update hosts file with appropriate hosts ip's.
+
+Executing ansible playbook:
+
+====
+**ansible-playbook -i hosts site.yml**
+====

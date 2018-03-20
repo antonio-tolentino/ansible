@@ -1,0 +1,19 @@
+  
+---
+# common handlers
+
+  - name: restart server 
+    shell: sleep 2 && shutdown -r now "Ansible restart"
+    async: 1
+    poll: 0
+    ignore_errors: true
+    notify:
+      - wait until server is available
+
+  - name: wait until server is available
+    wait_for:
+      port: 22
+      host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      search_regex: OpenSSH
+      delay: 10
+    connection: local
